@@ -1,10 +1,5 @@
-import os
 import copy
 import numpy as np
-
-dir_path = os.path.dirname(os.path.realpath(__file__))
-puzzle_input = open(f"{dir_path}/input.txt", "r").readlines()
-puzzle_input = [x.rstrip() for x in puzzle_input]
 
 
 def parse_string(inp: list) -> list:
@@ -83,5 +78,7 @@ def mix_lists(ingredients, combinations):
     return highest_num
 
 
-score = mix_lists(parse_string(puzzle_input), NEXCOM(100, len(puzzle_input)))
-print(score)
+def puzzle(puzzle_input: list[str]) -> int:
+    nexcom = NEXCOM(100, len(puzzle_input))
+    ingredients = parse_string(puzzle_input)
+    return mix_lists(ingredients, nexcom)

@@ -1,8 +1,3 @@
-import os
-import json
-dir_path = os.path.dirname(os.path.realpath(__file__))
-puzzle_input = json.loads(open(f"{dir_path}/input.txt", "r").read())
-
 
 def recursive_solve(input):
     if type(input) == int:
@@ -19,4 +14,7 @@ def recursive_solve(input):
     return 0
 
 
-print(recursive_solve(puzzle_input))
+def puzzle(puzzle_input: str) -> int:
+    import json
+    puzzle_json = json.loads(puzzle_input)
+    return recursive_solve(puzzle_json)

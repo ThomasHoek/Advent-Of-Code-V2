@@ -42,7 +42,7 @@ def next_password(password: list) -> list:
     for index, value in enumerate(password):
         if value == 9 or value == 15 or value == 12:  # i
             password[index] += 1
-            for i in range(index-1, 0, -1):
+            for i in range(index - 1, 0, -1):
                 password[i] = 1
 
     password.reverse()
@@ -77,7 +77,12 @@ def check_password(password: list) -> list:
             password = next_password(password)
 
 
-num_puzzle = [converter_str(num) for num in puzzle_input.rstrip()]
-awnser_num = check_password(num_puzzle)
-awnser_str = ''.join([converter_int(num) for num in awnser_num])
-print(awnser_str)
+def puzzle(puzzle_input: str) -> str:
+    num_puzzle = [converter_str(num) for num in puzzle_input.rstrip()]
+    awnser_num = check_password(num_puzzle)
+    awnser_str = "".join([converter_int(num) for num in awnser_num])
+
+    num_puzzle2 = [converter_str(num) for num in awnser_str.rstrip()]
+    awnser_num2 = check_password(num_puzzle2)
+    awnser_str2 = "".join([converter_int(num) for num in awnser_num2])
+    return awnser_str2

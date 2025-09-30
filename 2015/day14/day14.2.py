@@ -1,11 +1,6 @@
-import os
 import copy
 import re
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-puzzle_input = open(f"{dir_path}/input.txt", "r").readlines()
-
-puzzle_input = [x.rstrip() for x in puzzle_input]
 
 
 class rendeer:
@@ -84,23 +79,23 @@ class rendeer:
         """
         return self.points
 
+def puzzle(puzzle_input: list[str]) -> int:
+    all_rendeir = []
+    for line in puzzle_input:
+        all_rendeir.append(rendeer(*[int(i) for i in re.findall("\\d+", line)]))
 
-all_rendeir = []
-for line in puzzle_input:
-    all_rendeir.append(rendeer(*[int(i) for i in re.findall("\\d+", line)]))
+    for i in range(2503):
+        distance = []
+        for reindeer in all_rendeir:
+            reindeer.step()
+            distance.append(reindeer.get_dist())
 
-for i in range(2503):
-    distance = []
+        m = max(distance)
+        max_index_lst = [i for i, j in enumerate(distance) if j == m]
+        for index in max_index_lst:
+            all_rendeir[index].give_point()
+
+    point_lst = []
     for reindeer in all_rendeir:
-        reindeer.step()
-        distance.append(reindeer.get_dist())
-
-    m = max(distance)
-    max_index_lst = [i for i, j in enumerate(distance) if j == m]
-    for index in max_index_lst:
-        all_rendeir[index].give_point()
-
-point_lst = []
-for reindeer in all_rendeir:
-    point_lst.append(reindeer.get_points())
-print(max(point_lst))
+        point_lst.append(reindeer.get_points())
+    return max(point_lst)

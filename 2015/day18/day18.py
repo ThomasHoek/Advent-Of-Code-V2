@@ -1,10 +1,4 @@
-import os
 import copy
-# no numpy
-
-dir_path = os.path.dirname(os.path.realpath(__file__))
-puzzle_input = open(f"{dir_path}/input.txt", "r").readlines()
-puzzle_input = [x.rstrip() for x in puzzle_input]
 
 
 class GameOfLife:
@@ -17,22 +11,25 @@ class GameOfLife:
     def __repr__(self):
         return_str = ""
         for row in self.matrix:
-            return_str += ' '.join(row) + "\n"
+            return_str += " ".join(row) + "\n"
         return return_str
 
     def inbounds(self, x, y):
         if x < 0 or y < 0:  # below 0
             return False
-        if x > len(self.matrix)-1 or y > len(self.matrix)-1:  # above 100
+        if x > len(self.matrix) - 1 or y > len(self.matrix) - 1:  # above 100
             return False
         return True
 
     def sum_neighbours(self, x, y):
         total_sum = 0
-        for row in range(x-1, x+2):
-            for col in range(y-1, y+2):
-                if (row != x or col != y) and self.inbounds(row, col) and \
-                        self.matrix[row][col] == "#":
+        for row in range(x - 1, x + 2):
+            for col in range(y - 1, y + 2):
+                if (
+                    (row != x or col != y)
+                    and self.inbounds(row, col)
+                    and self.matrix[row][col] == "#"
+                ):
                     total_sum += 1
 
         return total_sum
@@ -53,8 +50,9 @@ class GameOfLife:
         self.copy_matrix = copy.deepcopy(self.matrix)
         for i in range(len(self.matrix)):
             for j in range(len(self.matrix[i])):
-                self.copy_matrix[i][j] = self.rules(self.matrix[i][j],
-                                                    self.sum_neighbours(i, j))
+                self.copy_matrix[i][j] = self.rules(
+                    self.matrix[i][j], self.sum_neighbours(i, j)
+                )
         self.matrix = copy.deepcopy(self.copy_matrix)
 
     def awnser(self):
@@ -66,8 +64,9 @@ class GameOfLife:
         return total_sum
 
 
-grid = GameOfLife(puzzle_input)
-for i in range(100):
-    grid.step()
+def puzzle(puzzle_input: list[str]) -> int:
+    grid = GameOfLife(puzzle_input)
+    for _ in range(100):
+        grid.step()
 
-print(grid.awnser())
+    return grid.awnser()

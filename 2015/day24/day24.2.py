@@ -24,17 +24,18 @@ def check_group_sum(set: list[int], n: int, sum: int) -> bool:
             if j < set[i - 1]:
                 subset[i][j] = subset[i - 1][j]
             if j >= set[i - 1]:
-                subset[i][j] = (subset[i - 1][j]
-                                or subset[i - 1][j - set[i - 1]])
+                subset[i][j] = subset[i - 1][j] or subset[i - 1][j - set[i - 1]]
 
     return subset[n][sum]
 
 
-def get_all_perms(subset: list[int],
-                  target: int,
-                  perm_set: set[tuple[int]] = set(),
-                  partial: list[int] = [],
-                  partial_sum: int = 0) -> set[tuple[int]]:
+def get_all_perms(
+    subset: list[int],
+    target: int,
+    perm_set: set[tuple[int]] = set(),
+    partial: list[int] = [],
+    partial_sum: int = 0,
+) -> set[tuple[int]]:
     """
     get_perms Gets all the permutations of an input list
 
@@ -66,22 +67,23 @@ def get_all_perms(subset: list[int],
         subset_n: int = subset[i]
 
         # slice to get sub list
-        remaining: list[int] = subset[i + 1:]
+        remaining: list[int] = subset[i + 1 :]
 
         # recursive call with sublist and shorter input
-        perm_set = get_all_perms(subset=remaining,
-                                 target=target,
-                                 perm_set=perm_set,
-                                 partial=partial + [subset_n],
-                                 partial_sum=partial_sum + subset_n)
+        perm_set = get_all_perms(
+            subset=remaining,
+            target=target,
+            perm_set=perm_set,
+            partial=partial + [subset_n],
+            partial_sum=partial_sum + subset_n,
+        )
     return perm_set
 
 
 def puzzle(puzzle_input: list[int]) -> Any:
-
-    fourth_sum = int(sum(puzzle_input) / 4)
-    new_set_4: set[tuple[int]] = get_all_perms(subset=puzzle_input,
-                                               target=fourth_sum)
+    puzzle_input_int: list[int] = [int(p) for p in puzzle_input]
+    fourth_sum = int(sum(puzzle_input_int) / 4)
+    new_set_4: set[tuple[int]] = get_all_perms(subset=puzzle_input_int, target=fourth_sum)
 
     # get shortest only
     short_lst_4: list[list[int]] = list()
@@ -91,14 +93,14 @@ def puzzle(puzzle_input: list[int]) -> Any:
             short_lst_4.append(list(val))
 
     # sort by QE
-    sort_lst_4: list[list[int]] = sorted(short_lst_4,
-                                         key=lambda x: math.prod(x))
+    sort_lst_4: list[list[int]] = sorted(short_lst_4, key=lambda x: math.prod(x))
     # for highest QE 4
     for i_4 in sort_lst_4:
-        remainder_4: list[int] = [x for x in puzzle_input if x not in i_4]
+        remainder_4: list[int] = [x for x in puzzle_input_int if x not in i_4]
 
-        new_set_3: set[tuple[int]] = get_all_perms(subset=remainder_4,
-                                                   target=fourth_sum)
+        new_set_3: set[tuple[int]] = get_all_perms(
+            subset=remainder_4, target=fourth_sum
+        )
 
         # get shortest only
         sort_lst_3: list[list[int]] = list()
@@ -109,54 +111,7 @@ def puzzle(puzzle_input: list[int]) -> Any:
 
         # for highest QE 3
         for i_3 in sort_lst_3:
-            remainder_3: list[int] = [x for x in puzzle_input if x not in i_3]
+            remainder_3: list[int] = [x for x in puzzle_input_int if x not in i_3]
             if check_group_sum(remainder_3, len(remainder_3), fourth_sum):
                 return math.prod(i_4)
 
-
-if __name__ == "__main__":
-    import sys
-    import os
-    from io import TextIOWrapper
-    from typing import TextIO
-
-    try:
-        final: bool = "final" in sys.argv
-        file: bool = "file" in sys.argv
-        clock: bool = "time" in sys.argv
-
-    except IndexError:
-        final: bool = False
-        file: bool = False
-        clock: bool = False
-
-    dir_path: str = os.path.dirname(os.path.realpath(__file__))
-
-    if file:
-        orig_stdout: TextIO = sys.stdout
-        f: TextIOWrapper = open('out.txt', 'w')
-        sys.stdout = f
-
-    if clock:
-        import time
-        start: float = time.time()
-
-    if final:
-        puzzle_input: list[str] = open(f"{dir_path}/input.txt",
-                                       "r").readlines()
-        puzzle_input_r: list[int] = [int(x.rstrip()) for x in puzzle_input]
-        print(puzzle(puzzle_input_r))
-
-    else:
-        puzzle_input: list[str] = open(f"{dir_path}/test.txt", "r").readlines()
-        puzzle_input_r: list[int] = [int(x.rstrip()) for x in puzzle_input]
-        sol = puzzle(puzzle_input_r)
-        print(sol)
-        assert sol == 44
-
-    if clock:
-        print("time: ", time.time() - start)  # type: ignore
-
-    if file:
-        sys.stdout = orig_stdout  # type: ignore
-        f.close()  # type: ignore

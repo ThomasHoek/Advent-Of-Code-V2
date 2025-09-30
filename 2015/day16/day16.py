@@ -1,9 +1,5 @@
-import os
 import re
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-puzzle_input = open(f"{dir_path}/input.txt", "r").readlines()
-puzzle_input = [x.rstrip() for x in puzzle_input]
 
 
 class aunt:
@@ -23,52 +19,53 @@ class aunt:
         inp_str = inp_str.replace("Sue ", "")
         inp_str = inp_str.replace(",", "")
 
-        indices = [x.start() for x in re.finditer(" ",  inp_str)][::2]
-        self.name = inp_str[:indices[0]]
+        indices = [x.start() for x in re.finditer(" ", inp_str)][::2]
+        self.name = inp_str[: indices[0]]
         self.parsed = inp_str
         self.indices = indices + [len(inp_str)]
 
     def check(self):
-
         for i in range(len(self.indices) - 1):
-            _, name, var = self.parsed[self.indices[i]:
-                                       self.indices[i+1]].split(" ")
-
+            _, name, var = self.parsed[self.indices[i] : self.indices[i + 1]].split(" ")
             var = int(var)
-            if name == "children" and self.children != var:
-                return False
-
-            elif name == "cats" and self.cats != var:
-                return False
-
-            elif name == "samoyeds" and self.samoyeds != var:
-                return False
-
-            elif name == "pomeranians" and self.pomeranians != var:
-                return False
-
-            elif name == "akitas" and self.akitas != var:
-                return False
-
-            elif name == "vizslas" and self.vizslas != var:
-                return False
-
-            elif name == "goldfish" and self.goldfish != var:
-                return False
-
-            elif name == "trees" and self.trees != var:
-                return False
-
-            elif name == "cars" and self.cars != var:
-                return False
-
-            elif name == "perfumes" and self.perfumes != var:
-                return False
+            match name:
+                case "children":
+                    if self.children != var:
+                        return False
+                case "cats":
+                    if self.cats != var:
+                        return False
+                case "samoyeds":
+                    if self.samoyeds != var:
+                        return False
+                case "pomeranians":
+                    if self.pomeranians != var:
+                        return False
+                case "akitas":
+                    if self.akitas != var:
+                        return False
+                case "vizslas":
+                    if self.vizslas != var:
+                        return False
+                case "goldfish":
+                    if self.goldfish != var:
+                        return False
+                case "trees":
+                    if self.trees != var:
+                        return False
+                case "cars":
+                    if self.cars != var:
+                        return False
+                case "perfumes":
+                    if self.perfumes != var:
+                        return False
+                case _:
+                    raise NotImplementedError(f"Unknown attribute {name}")
         return True
 
-
-for line in puzzle_input:
-    a = aunt(line)
-    booltest = a.check()
-    if booltest:
-        print(a.name)
+def puzzle(puzzle_input: list[str]) -> None:
+    for line in puzzle_input:
+        a = aunt(line)
+        booltest = a.check()
+        if booltest:
+            return a.name

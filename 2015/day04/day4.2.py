@@ -14,10 +14,11 @@ def to_hash(text: str) -> str:
     return hash_object.hexdigest()
 
 
-x = 0
-while True:
-    txt = f"ckczppom{x}"
-    if to_hash(txt)[:6] == "000000":
-        print(txt)
-        break
-    x += 1
+def puzzle(puzzle_input: str):
+    x = 0
+    while True:
+        txt = f"{puzzle_input}{x}"
+        if to_hash(txt).startswith("000000"):
+            break
+        x += 1
+    return x

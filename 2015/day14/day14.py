@@ -1,11 +1,6 @@
-import os
 import copy
 import re
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-puzzle_input = open(f"{dir_path}/input.txt", "r").readlines()
-
-puzzle_input = [x.rstrip() for x in puzzle_input]
 
 
 class rendeer:
@@ -73,9 +68,10 @@ class rendeer:
         return self.total_dist
 
 
-all_dist = []
-for line in puzzle_input:
-    reindeer = rendeer(*[int(i) for i in re.findall("\\d+", line)])
-    all_dist.append(reindeer.run(2503))
+def puzzle(puzzle_input: list[str]) -> int:
+    all_dist = []
+    for line in puzzle_input:
+        reindeer = rendeer(*[int(i) for i in re.findall("\\d+", line)])
+        all_dist.append(reindeer.run(2503))
 
-print(max(all_dist))
+    return max(all_dist)
