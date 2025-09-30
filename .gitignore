@@ -1,0 +1,9 @@
+*.txt
+.vscode
+tempCodeRunnerFile.py
+/test
+*.mod
+.mypy_cache
+.aocdlconfig
+debug/
+__pycache__
