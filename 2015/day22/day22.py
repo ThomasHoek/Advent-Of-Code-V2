@@ -1,5 +1,4 @@
 from copy import deepcopy
-from io import TextIOWrapper
 
 convert_dict: dict[int, str] = {
     0: "Magic",

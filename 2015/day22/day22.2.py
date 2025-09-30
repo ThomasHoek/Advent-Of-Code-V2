@@ -1,5 +1,4 @@
 from copy import deepcopy
-from io import TextIOWrapper
 
 global_debug: bool = False
 convert_dict: dict[int, str] = {

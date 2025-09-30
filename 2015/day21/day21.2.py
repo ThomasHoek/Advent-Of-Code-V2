@@ -1,5 +1,4 @@
 
-import random
 
 def battle(hp, weapon, armour, ring1, ring2, boss, max_cost):
     if (ring1 != ring2) or (ring1 == [0, 0, 0] and (ring1 == ring2)):
