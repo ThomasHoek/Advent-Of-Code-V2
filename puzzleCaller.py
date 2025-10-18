@@ -6,7 +6,17 @@ from typing import Any
 from collections.abc import Callable
 
 
+def verify_py_file_exist(path_to_pyfile: str) -> None:
+    try:
+        with open(path_to_pyfile, "r"):
+            pass
+    except FileNotFoundError:
+        with open(path_to_pyfile, "w"):
+            pass
+
+
 def get_function_object(path_to_pyfile: str, funcname: str) -> Callable[..., Any]:
+    verify_py_file_exist(path_to_pyfile)
     spec = importlib.util.spec_from_file_location("tmpmodulename", path_to_pyfile)
     if spec is None or spec.loader is None:
         raise ImportError(f"Cannot load module from {path_to_pyfile}")
