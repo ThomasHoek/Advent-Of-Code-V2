@@ -1,0 +1,49 @@
+[project]
+name = "advent-of-code-v2"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "make>=0.1.6.post2",
+    "produce>=0.8.0",
+    "ruff>=0.15.16",
+]
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+target-version="py313"
+include = [
+    "aoc/**/*.py"
+]
+
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "A",  # flake8-annotations
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "PERF", # flake8-benchmark
+    "UP", # pyupgrade for modern Python syntax
+]
+
+ignore = [
+    "E501",
+    "C901",
+    "B904",
+    "B006",
+]
+fixable = ["ALL"]
+unfixable = []
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
