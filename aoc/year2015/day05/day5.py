@@ -1,3 +1,7 @@
+import re
+
+FORBIDDEN_PATTERN = re.compile(r"ab|cd|pq|xy")
+
 
 def vowel_check(inp: str) -> bool:
     inp = inp.lower()
@@ -15,10 +19,7 @@ def check_double_letter(inp: str) -> bool:
 
 
 def contains_string(inp: str) -> bool:
-    for forbidden_combo in ["ab", "cd", "pq", "xy"]:
-        if forbidden_combo in inp:
-            return False
-    return True
+    return not FORBIDDEN_PATTERN.search(inp)
 
 
 def puzzle(puzzle_input: list[str]) -> int:

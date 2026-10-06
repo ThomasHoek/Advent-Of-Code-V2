@@ -1,4 +1,3 @@
-
 def double_double_string(inp: str) -> bool:
     while len(inp) > 3:
         if inp.count(inp[len(inp) - 2 :]) >= 2:
@@ -12,6 +11,7 @@ def check_double_letter(inp: str) -> bool:
         if inp[i] == inp[i + 2]:
             return True
     return False
+
 
 def puzzle(puzzle_input: list[str]) -> int:
     nice = 0

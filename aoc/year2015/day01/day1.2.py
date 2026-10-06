@@ -5,8 +5,8 @@
 
 def puzzle(puzzle_input: str):
     pos: int = 0
-    count = 0
-    for count, next_floor in enumerate(puzzle_input, start=1):
+    _count = -1  # make sure not unbound
+    for _count, next_floor in enumerate(puzzle_input, start=1):
         if next_floor == "(":
             pos += 1
         else:
@@ -15,4 +15,4 @@ def puzzle(puzzle_input: str):
         if pos == -1:
             break
 
-    return count
+    return _count

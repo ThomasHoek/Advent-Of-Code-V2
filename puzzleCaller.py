@@ -31,7 +31,16 @@ def get_args() -> argparse.Namespace:
         description="Run an AoC puzzle function against an input file."
     )
     parser.add_argument("-i", "--input", type=str, required=True)
-    parser.add_argument("-p", "--path", type=str, required=True)
+    parser.add_argument(
+        "-f",
+        "--file",
+        "-p",
+        "--path",
+        dest="file",
+        type=str,
+        required=True,
+        help="Exact Python file to load; --path remains available as an alias.",
+    )
     parser.add_argument("--function", default="puzzle", type=str)
     return parser.parse_args()
 
@@ -42,6 +51,6 @@ if __name__ == "__main__":
     with open(args.input) as f:
         lines = [line.rstrip() for line in f]
 
-    puzzle_func = load_function(args.path, args.function)
+    puzzle_func = load_function(args.file, args.function)
     puzzle_input: str | list[str] = lines[0] if len(lines) == 1 else lines
     print(f"Solution: {puzzle_func(puzzle_input)}")

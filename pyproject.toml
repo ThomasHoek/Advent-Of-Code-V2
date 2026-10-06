@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "make>=0.1.6.post2",
+    "numpy>=2.5.3",
     "produce>=0.8.0",
     "ruff>=0.15.16",
 ]

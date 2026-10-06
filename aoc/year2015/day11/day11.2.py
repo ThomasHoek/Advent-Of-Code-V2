@@ -1,18 +1,26 @@
 import os
 
+from aoc.year2015.day11.day11_constants import (
+    INDEX_BEYOND_Z,
+    LETTER_I,
+    LETTER_L,
+    LETTER_O,
+    UNICODE_A,
+)
+
 dir_path = os.path.dirname(os.path.realpath(__file__))
-puzzle_input = open(f"{dir_path}/input2.txt", "r").readline()
+puzzle_input = open(f"{dir_path}/input2.txt").readline()
 
 
 def converter_int(num: int) -> str:
-    return chr(num + 96)
+    return chr(num + UNICODE_A)
 
 
 def converter_str(string: str) -> int:
-    return ord(string) - 96
+    return ord(string) - UNICODE_A
 
 
-def next_password(password: list) -> list:
+def next_password(password: list[int]) -> list[int]:
     """next_password generator
 
     Increases the password
@@ -30,9 +38,9 @@ def next_password(password: list) -> list:
     password.reverse()
     password[0] += 1
 
-    while 27 in password:
+    while INDEX_BEYOND_Z in password:
         for index, value in enumerate(password):
-            if value == 27:
+            if value == INDEX_BEYOND_Z:
                 password[index] = 1
                 try:
                     password[index + 1] += 1
@@ -40,7 +48,7 @@ def next_password(password: list) -> list:
                     password[-1] = 1
 
     for index, value in enumerate(password):
-        if value == 9 or value == 15 or value == 12:  # i
+        if value == LETTER_I or value == LETTER_L or value == LETTER_O:
             password[index] += 1
             for i in range(index - 1, 0, -1):
                 password[i] = 1
@@ -49,7 +57,7 @@ def next_password(password: list) -> list:
     return password
 
 
-def check_password(password: list) -> list:
+def check_password(password: list[int]) -> list[int]:
     password = next_password(password)
     while True:
         check = False

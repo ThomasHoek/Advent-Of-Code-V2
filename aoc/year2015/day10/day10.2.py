@@ -8,9 +8,9 @@ def puzzle(puzzle_input: str) -> int:
             if number == prev_number:
                 count += 1
             else:
-                new_string = new_string + "{}{}".format(count, prev_number)
+                new_string = new_string + f"{count}{prev_number}"
                 prev_number = number
                 count = 1
-        new_string = new_string + "{}{}".format(count, prev_number)
+        new_string = new_string + f"{count}{prev_number}"
         string = new_string
     return len(string)

@@ -1,4 +1,7 @@
-def isInt(s):
+from typing import Any
+
+
+def isInt(s: Any):
     try:
         int(s)
         return True

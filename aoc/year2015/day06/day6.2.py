@@ -1,50 +1,42 @@
 # Solution can be done using numpy
+import re
+
 import numpy as np
+
+from aoc.modules.text_parser import parse
 
 type matrixT = np.ndarray
 
+TOGGLE_PATTERN: re.Pattern[str] = re.compile(r"toggle (\d+),(\d+) through (\d+),(\d+)")
+TURN_PATTERN: re.Pattern[str] = re.compile(r"turn (on|off) (\d+),(\d+) through (\d+),(\d+)")
+
 
 # turn on 0,0 through 999,999
-def turn(matrix: matrixT, command: str, start: tuple[int, int], end: tuple[int, int]):
-    start_x, start_y = start
-    end_x, end_y = end
-
-    for x in range(start_x, end_x + 1):
-        for y in range(start_y, end_y + 1):
-            if command == "on":
-                matrix[x][y] += 1
-            else:
-                matrix[x][y] = max(0, matrix[x][y] - 1)
+def turn(
+    matrix: matrixT, command: str, start_x: int, start_y: int, end_x: int, end_y: int
+) -> matrixT:
+    region = matrix[start_x : end_x + 1, start_y : end_y + 1]
+    if command == "on":
+        region += 1
+    else:
+        np.maximum(region - 1, 0, out=region)
     return matrix
 
 
-def toggle(matrix: matrixT, start: tuple[int, int], end: tuple[int, int]):
-    start_x, start_y = start
-    end_x, end_y = end
-
-    for x in range(start_x, end_x + 1):
-        for y in range(start_y, end_y + 1):
-            matrix[x][y] += 2
+def toggle(matrix: matrixT, start_x: int, start_y: int, end_x: int, end_y: int):
+    matrix[start_x : end_x + 1, start_y : end_y + 1] += 2
     return matrix
 
 
-def puzzle(puzzle_input: list[str]) -> int:
+def puzzle(puzzle_input: list[str]):
     matrix = np.zeros((1000, 1000))
 
     for line in puzzle_input:
         if "toggle" in line:
-            line = line.replace("toggle ", "")
-            start, end = line.split(" through ")
-            start = tuple(map(int, start.split(",")))
-            end = tuple(map(int, end.split(",")))
-            matrix = toggle(matrix, start, end)
-
+            start_x, start_y, end_x, end_y = parse(TOGGLE_PATTERN, line)
+            matrix = toggle(matrix, int(start_x), int(start_y), int(end_x), int(end_y))
         else:
-            line = line.replace("turn ", "")
-            line = line.replace(" through ", " ")
-            command, start, end = line.split(" ")
-            start = tuple(map(int, start.split(",")))
-            end = tuple(map(int, end.split(",")))
-            matrix = turn(matrix, command, start, end)
+            command, start_x, start_y, end_x, end_y = parse(TURN_PATTERN, line)
+            matrix = turn(matrix, command, int(start_x), int(start_y), int(end_x), int(end_y))
 
     return matrix.sum()

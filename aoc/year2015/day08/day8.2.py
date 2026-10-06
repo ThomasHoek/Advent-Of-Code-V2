@@ -2,7 +2,6 @@ def puzzle(puzzle_input: list[str]) -> int:
     total_length = 0
     total_string = 0
 
-
     for line in puzzle_input:
         total_length += len(line)
         index_pointer = 0
